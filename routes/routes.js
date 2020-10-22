@@ -11,6 +11,21 @@ const router = express.Router()
 router.get('/iphones/buy2', paginatedResults(buyRequests), (req, res) => {
 	res.json(res.paginatedResults)
   })
+
+ // Get all Sell  requests with pagination  [ /api/iphones/buy2?page=1&limit=5 ]
+router.get('/iphones/sell2', paginatedResults(sellRequests), (req, res) => {
+	res.json(res.paginatedResults)
+  })
+
+
+
+
+
+
+
+
+
+
   
   function paginatedResults(model) {
 	return async (req, res, next) => {
@@ -49,6 +64,8 @@ router.get('/iphones/buy2', paginatedResults(buyRequests), (req, res) => {
 	  }
 	}
   }
+
+
 
 
 // Get all buy  requests
