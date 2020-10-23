@@ -3,6 +3,7 @@ const posts = require("../models/Post")
 const buyRequests = require("../models/buyRequest") 
 const sellRequests = require("../models/sellRequest") 
 const base = require("../controllers/import") // new
+const trigger = require("../controllers/loadData") 
 const router = express.Router()
 
 
@@ -17,6 +18,15 @@ router.get('/iphones/sell2', paginatedResults(sellRequests), (req, res) => {
 	res.json(res.paginatedResults)
   })
 
+
+
+ // Trigger Data Reload
+ router.get('/iphones/data/trigger', trigger.triggerReload)
+
+
+ router.get("/iphones/data/trigger333", paginatedResults(sellRequests), (req, res) => {
+	res.json(res.paginatedResults)
+  })
 
 
 
