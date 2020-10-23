@@ -11,19 +11,16 @@ exports.triggerReload = (req, res, next) => {
             null,
             credentials.private_key,
             ['https://www.googleapis.com/auth/spreadsheets']
-
         );
-
         client.authorize(function(err,tokens){
             if (err) {
                 console.log(err)
                 return; // No need to go ahead after an error is encountered
             } else {
-                console.log('Connected')
+                console.log('Connected to the datasheet')
                 buyRequestHandler(client)
                 // sellRequestHandler(client)
             }
-        
         })
 
         async function buyRequestHandler(cl){
@@ -76,10 +73,8 @@ exports.triggerReload = (req, res, next) => {
                                     "price":element[4], 
                                     "status": element[1],
                                 }
-                    
                                 const uploadData = new buyRequest(data)
                                 uploadData.save()
-                                //   console.log(uploadData); 
                             }
                         });
                         console.log("Buy Request Table Updated");
@@ -131,9 +126,8 @@ exports.triggerReload = (req, res, next) => {
                                         "condition": element[3],
                                         "price": price, 
                                         "status": element[1],
-                                    }
-                        
-                                    const uploadData = new buyRequest(data)
+                                    }                       
+                                    const uploadData = new sellRequest(data)
                                     uploadData.save()
                             } else{
                                 var data = {
@@ -144,7 +138,7 @@ exports.triggerReload = (req, res, next) => {
                                     "status": element[1],
                                 }
                     
-                                const uploadData = new buyRequest(data)
+                                const uploadData = new sellRequest(data)
                                 uploadData.save()
                                 //   console.log(uploadData); 
                             }
