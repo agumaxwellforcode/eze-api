@@ -26,7 +26,6 @@ exports.triggerReload = (req, res, next) => {
         
         })
 
-
         async function buyRequestHandler(cl){
             const googleApiSetup = google.sheets({
                     version:'v4',
@@ -56,18 +55,32 @@ exports.triggerReload = (req, res, next) => {
                     else {
                         console.log("Buy Request Table Purged");
                         arr.forEach(element => { 
-
-                            var data = {
-                                "name": element[0],
-                                "storage": element[2],
-                                "condition": element[3],
-                                "price": element[4],
-                                "status": element[1],
-                            }
-                
-                            const uploadData = new buyRequest(data)
+                            if (  element[4] && element[4].includes("$")) {
+                                const price = element[4].substring( element[4].indexOf('$')+1) // Remove $(dollar sign) to allow for integer data type
+                             
+                                    var data = {
+                                        "name": element[0],
+                                        "storage": element[2],
+                                        "condition": element[3],
+                                        "price": price, 
+                                        "status": element[1],
+                                    }
+                        
+                                    const uploadData = new buyRequest(data)
+                                    uploadData.save()
+                            } else{
+                                var data = {
+                                    "name": element[0],
+                                    "storage": element[2],
+                                    "condition": element[3],
+                                    "price":element[4], 
+                                    "status": element[1],
+                                }
+                    
+                                const uploadData = new buyRequest(data)
                                 uploadData.save()
                                 //   console.log(uploadData); 
+                            }
                         });
                         console.log("Buy Request Table Updated");
                         sellRequestHandler(client)
@@ -102,7 +115,7 @@ exports.triggerReload = (req, res, next) => {
             let request = data.data.values;
                 const arr = request;
 
-                sellRequest.deleteMany({},(err, results) => {
+               await sellRequest.deleteMany({},(err, results) => {
                     if (err) {
                         console.log(err);
                         return
@@ -110,18 +123,31 @@ exports.triggerReload = (req, res, next) => {
                     else {
                         console.log("Sell Request Table Purged");
                         arr.forEach(element => { 
-
-                            var data = {
-                                "name": element[0],
-                                "storage": element[2],
-                                "condition": element[3],
-                                "price": element[4],
-                                "status": element[1],
-                            }
-                
-                            const uploadData = new sellRequest(data)
+                            if (  element[4] && element[4].includes("$")) {
+                                const price = element[4].substring( element[4].indexOf('$')+1) // Remove $(dollar sign) to allow for integer data type
+                                    var data = {
+                                        "name": element[0],
+                                        "storage": element[2],
+                                        "condition": element[3],
+                                        "price": price, 
+                                        "status": element[1],
+                                    }
+                        
+                                    const uploadData = new buyRequest(data)
+                                    uploadData.save()
+                            } else{
+                                var data = {
+                                    "name": element[0],
+                                    "storage": element[2],
+                                    "condition": element[3],
+                                    "price":element[4], 
+                                    "status": element[1],
+                                }
+                    
+                                const uploadData = new buyRequest(data)
                                 uploadData.save()
                                 //   console.log(uploadData); 
+                            }
                         });
                         console.log("Sell Request Table Updated");
                         return
@@ -134,6 +160,11 @@ exports.triggerReload = (req, res, next) => {
 
             return
         }
-        return res
+        res.send({
+			"code":200,
+			"status":"success",
+			"message":"Database Updated"
+		});
+        next()
 };
   

@@ -18,14 +18,25 @@ router.get('/iphones/sell2', paginatedResults(sellRequests), (req, res) => {
   })
 
 
+
+
+
+
  // Trigger Data Reload
  router.get('/iphones/data/trigger', trigger.triggerReload)
-
 
  router.get("/iphones/data/trigger333", paginatedResults(sellRequests), (req, res) => {
 	res.json(res.paginatedResults)
   })
 
+
+
+
+
+
+
+
+  
   router.get("/iphones/", paginatedResults(sellRequests), (req, res) => {
 	res.json(res.paginatedResults)
   })
@@ -43,7 +54,6 @@ router.get('/iphones/sell2', paginatedResults(sellRequests), (req, res) => {
 		if (req.query.hasOwnProperty(propName)) {
 			userQueryRequest[propName]=(req.query[propName])	
 		}
-		
 	}
 	res.send(userQueryRequest);
   });
