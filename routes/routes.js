@@ -1,14 +1,8 @@
 const express = require("express")
 const buyRequests = require("../models/buyRequest") 
 const sellRequests = require("../models/sellRequest") 
-const base = require("../controllers/import") // new
 const trigger = require("../controllers/loadData") 
 const router = express.Router()
-
-
-
-
-
 
 
 
@@ -73,40 +67,15 @@ router.get("/",  (req, res)  => {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 // Get all buy  requests with pagination  [ /api/iphones/buy2?page=1&limit=5 ]
-router.get('/iphones/buy2', paginatedResults(buyRequests), (req, res) => {
+router.get('/iphones/buy', paginatedResults(buyRequests), (req, res) => {
 	res.json(res.paginatedResults)
   })
 
  // Get all Sell  requests with pagination  [ /api/iphones/buy2?page=1&limit=5 ]
-router.get('/iphones/sell2', paginatedResults(sellRequests), (req, res) => {
+router.get('/iphones/sell', paginatedResults(sellRequests), (req, res) => {
 	res.json(res.paginatedResults)
   })
-
-
-
 
 
 
@@ -116,20 +85,7 @@ router.get('/iphones/sell2', paginatedResults(sellRequests), (req, res) => {
 
 
 
-
-
-
-
-  router.get("/iphones/", paginatedResults(sellRequests), (req, res) => {
-	res.json(res.paginatedResults)
-  })
-
-  
-
-  router.get("/iphones/query", paginatedResults(sellRequests), (req, res) => {
-	res.json(res.paginatedResults)
-  })
-
+  //Pagination function wrapper
   function paginatedResults(model) {
 	return async (req, res, next) => {
 	  const page = parseInt(req.query.page)

@@ -40,7 +40,6 @@ exports.triggerReload = (req, res, next) => {
         
             if (data.data.values.length > 0) {
                 
-
             let request = data.data.values;
                 const arr = request;
 
@@ -110,7 +109,7 @@ exports.triggerReload = (req, res, next) => {
             let request = data.data.values;
                 const arr = request;
 
-               await sellRequest.deleteMany({},(err, results) => {
+               await sellRequest.deleteMany({},(res, err, results) => {
                     if (err) {
                         console.log(err);
                         return
@@ -144,7 +143,11 @@ exports.triggerReload = (req, res, next) => {
                             }
                         });
                         console.log("Sell Request Table Updated");
-                        return
+                        res.send({
+                            "code":200,
+                            "status":"success",
+                            "message":"Database Updated"
+                        });
                     }
                 });
                 
@@ -154,11 +157,11 @@ exports.triggerReload = (req, res, next) => {
 
             return
         }
-        res.send({
-			"code":200,
-			"status":"success",
-			"message":"Database Updated"
-		});
+        // res.send({
+		// 	"code":200,
+		// 	"status":"success",
+		// 	"message":"Database Updated"
+		// });
         next()
 };
   
