@@ -16,7 +16,7 @@ mongoose
 		app.use("/api", routes)
 		
 
-		const PORT = process.env.PORT || 5000
+		const PORT = process.env.PORT || 443
 		app.listen(PORT, () => console.info(`server has started on ${PORT}`))
 	})
 	
